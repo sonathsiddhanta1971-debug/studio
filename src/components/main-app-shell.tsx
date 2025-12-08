@@ -23,6 +23,8 @@ export function MainAppShell({ children }: { children: React.ReactNode }) {
   else if (pathname === '/profile') headerTitle = "My Profile";
   else if (pathname === '/checkout') headerTitle = "Checkout";
   else if (pathname.startsWith('/orders')) headerTitle = "My Orders";
+  else if (pathname.startsWith('/admin')) headerTitle = "Admin";
+
 
   return (
     <div className="flex flex-col min-h-screen bg-background">

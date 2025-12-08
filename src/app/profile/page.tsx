@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/contexts/auth-context";
 import { useStore } from "@/contexts/store-context";
-import { Edit, LogOut, MapPin, Package, User as UserIcon } from "lucide-react";
+import { Edit, LogOut, MapPin, Package, Shield, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -94,6 +94,19 @@ function ProfilePageContent() {
             <p>You have {addresses.length} saved address(es).</p>
           </CardContent>
         </Card>
+        {user?.email === 'admin@example.com' && (
+          <Link href="/admin">
+            <Card className="hover:bg-muted/50 transition-colors md:col-span-2">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle>Admin Panel</CardTitle>
+                <Shield className="h-6 w-6 text-primary" />
+              </CardHeader>
+              <CardContent>
+                <p>Manage products, orders, and users.</p>
+              </CardContent>
+            </Card>
+          </Link>
+        )}
       </div>
 
       <Button variant="destructive" className="w-full md:w-auto" onClick={logout}>

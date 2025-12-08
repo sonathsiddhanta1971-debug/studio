@@ -45,7 +45,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl font-headline">Welcome to MITA SHAREE</CardTitle>
-          <CardDescription>Log in to continue your shopping.</CardDescription>
+          <CardDescription>Use <span className="font-semibold">admin@example.com</span> to log in as an admin.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
