@@ -8,7 +8,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { useStore } from "@/contexts/store-context";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { DollarSign, Package, ShoppingCart, Users } from "lucide-react";
+import { DollarSign, Package, ShoppingCart, Users, Image as ImageIcon, Shirt } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -75,6 +75,31 @@ function AdminPageContent() {
             <div className="text-2xl font-bold">{totalCustomers}</div>
           </CardContent>
         </Card>
+      </div>
+
+       <div className="grid gap-4 md:grid-cols-2">
+        <Link href="/admin/products">
+            <Card className="hover:bg-muted/50 transition-colors">
+                <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle>Manage Products</CardTitle>
+                    <Shirt className="h-6 w-6 text-primary" />
+                </CardHeader>
+                <CardContent>
+                    <p>Add, edit, or delete saree products.</p>
+                </CardContent>
+            </Card>
+        </Link>
+        <Link href="/admin/banners">
+            <Card className="hover:bg-muted/50 transition-colors">
+                <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle>Manage Banners</CardTitle>
+                    <ImageIcon className="h-6 w-6 text-primary" />
+                </CardHeader>
+                <CardContent>
+                    <p>Update your homepage banners.</p>
+                </CardContent>
+            </Card>
+        </Link>
       </div>
 
       <Card>

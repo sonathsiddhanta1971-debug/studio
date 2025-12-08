@@ -1,13 +1,15 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { Product, CartItem, Order, Address } from '@/lib/types';
-import { PRODUCTS } from '@/lib/mock-data';
+import type { Product, CartItem, Order, Address, Banner } from '@/lib/types';
+import { PRODUCTS, BANNERS, CATEGORIES } from '@/lib/mock-data';
 import { useAuth } from './auth-context';
 import { useRouter } from 'next/navigation';
 
 interface StoreContextType {
   products: Product[];
+  banners: Banner[];
+  categories: typeof CATEGORIES;
   wishlist: Product[];
   cart: CartItem[];
   orders: Order[];
@@ -24,6 +26,10 @@ interface StoreContextType {
   shippingCost: number;
   addAddress: (address: Omit<Address, 'id'>) => void;
   placeOrder: (address: Address, paymentMethod: string) => Promise<string>;
+  addProduct: (product: Omit<Product, 'id'>) => void;
+  updateProduct: (product: Product) => void;
+  deleteProduct: (productId: string) => void;
+  updateBanner: (banner: Banner) => void;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -32,7 +38,9 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useAuth();
   const router = useRouter();
   
-  const [products] = useState<Product[]>(PRODUCTS);
+  const [products, setProducts] = useState<Product[]>(PRODUCTS);
+  const [banners, setBanners] = useState<Banner[]>(BANNERS);
+  const [categories] = useState(CATEGORIES);
   const [wishlist, setWishlist] = useState<Product[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -41,6 +49,10 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     setLoading(true);
+    // Load base data
+    setProducts(JSON.parse(localStorage.getItem('mita-sharee-products') || JSON.stringify(PRODUCTS)));
+    setBanners(JSON.parse(localStorage.getItem('mita-sharee-banners') || JSON.stringify(BANNERS)));
+
     if (user) {
       // Mock fetching user-specific data
       const storedData = localStorage.getItem(`mita-sharee-store-${user.uid}`);
@@ -69,6 +81,15 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem(`mita-sharee-store-${user.uid}`, dataToStore);
     }
   }, [wishlist, cart, orders, addresses, user]);
+
+  useEffect(() => {
+      localStorage.setItem('mita-sharee-products', JSON.stringify(products));
+  }, [products]);
+
+  useEffect(() => {
+      localStorage.setItem('mita-sharee-banners', JSON.stringify(banners));
+  }, [banners]);
+
 
   const isWishlisted = (productId: string) => wishlist.some(p => p.id === productId);
 
@@ -122,7 +143,6 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const placeOrder = async (address: Address, paymentMethod: string): Promise<string> => {
     if (!user) throw new Error("User not logged in");
     
-    // Mock payment processing
     await new Promise(res => setTimeout(res, 2000));
     const newOrderId = `order-${Date.now()}`;
     
@@ -142,6 +162,23 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
     clearCart();
     return newOrderId;
   };
+
+  const addProduct = (product: Omit<Product, 'id'>) => {
+    const newProduct = { ...product, id: `prod-${Date.now()}` };
+    setProducts(prev => [newProduct, ...prev]);
+  };
+
+  const updateProduct = (product: Product) => {
+    setProducts(prev => prev.map(p => p.id === product.id ? product : p));
+  };
+
+  const deleteProduct = (productId: string) => {
+    setProducts(prev => prev.filter(p => p.id !== productId));
+  };
+
+  const updateBanner = (banner: Banner) => {
+    setBanners(prev => prev.map(b => b.id === banner.id ? banner : b));
+  };
   
   const cartSubtotal = cart.reduce((total, item) => total + item.product.price * item.quantity, 0);
   const shippingCost = cartSubtotal > 0 && cartSubtotal < 5000 ? 100 : 0;
@@ -152,6 +189,8 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
     <StoreContext.Provider
       value={{
         products,
+        banners,
+        categories,
         wishlist,
         cart,
         orders,
@@ -168,6 +207,10 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
         shippingCost,
         addAddress,
         placeOrder,
+        addProduct,
+        updateProduct,
+        deleteProduct,
+        updateBanner,
       }}
     >
       {children}
