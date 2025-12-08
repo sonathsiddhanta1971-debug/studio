@@ -25,7 +25,7 @@ interface BannerFormProps {
 }
 
 export function BannerForm({ banner, onSave }: BannerFormProps) {
-  const { updateBanner } = useStore();
+  const { addBanner, updateBanner } = useStore();
   const { toast } = useToast();
 
   const form = useForm<BannerFormValues>({
@@ -41,6 +41,9 @@ export function BannerForm({ banner, onSave }: BannerFormProps) {
     if (banner) {
       updateBanner({ ...banner, ...values });
       toast({ title: "Banner updated successfully!" });
+    } else {
+      addBanner(values);
+      toast({ title: "Banner added successfully!" });
     }
     onSave();
   }

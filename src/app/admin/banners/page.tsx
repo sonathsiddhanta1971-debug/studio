@@ -6,15 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useStore } from "@/contexts/store-context";
-import { Edit } from "lucide-react";
+import { Edit, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { BannerForm } from "@/components/admin/banner-form";
 import type { Banner } from "@/lib/types";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
+
 
 function BannersAdminPageContent() {
-  const { banners } = useStore();
+  const { banners, deleteBanner } = useStore();
+  const { toast } = useToast();
   const [isFormOpen, setFormOpen] = useState(false);
   const [editingBanner, setEditingBanner] = useState<Banner | undefined>(undefined);
 
@@ -22,13 +26,24 @@ function BannersAdminPageContent() {
     setEditingBanner(banner);
     setFormOpen(true);
   };
+  
+  const handleAdd = () => {
+    setEditingBanner(undefined);
+    setFormOpen(true);
+  };
+
+  const handleDelete = (bannerId: string) => {
+    deleteBanner(bannerId);
+    toast({ title: "Banner deleted successfully." });
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <Dialog open={isFormOpen} onOpenChange={setFormOpen}>
         <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Banners</CardTitle>
+            <Button onClick={handleAdd}><Plus className="mr-2 h-4 w-4" /> Add Banner</Button>
           </CardHeader>
           <CardContent>
             <Table>
@@ -50,6 +65,25 @@ function BannersAdminPageContent() {
                       <Button variant="ghost" size="icon" onClick={() => handleEdit(banner)}>
                         <Edit className="h-4 w-4" />
                       </Button>
+                      <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                  <Trash2 className="h-4 w-4 text-destructive" />
+                              </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                              <AlertDialogHeader>
+                                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                      This action cannot be undone. This will permanently delete the banner.
+                                  </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction onClick={() => handleDelete(banner.id)}>Delete</AlertDialogAction>
+                              </AlertDialogFooter>
+                          </AlertDialogContent>
+                      </AlertDialog>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -59,7 +93,7 @@ function BannersAdminPageContent() {
         </Card>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Banner</DialogTitle>
+            <DialogTitle>{editingBanner ? 'Edit Banner' : 'Add New Banner'}</DialogTitle>
           </DialogHeader>
           <BannerForm banner={editingBanner} onSave={() => setFormOpen(false)} />
         </DialogContent>

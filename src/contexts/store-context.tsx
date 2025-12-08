@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
@@ -29,7 +30,9 @@ interface StoreContextType {
   addProduct: (product: Omit<Product, 'id'>) => void;
   updateProduct: (product: Product) => void;
   deleteProduct: (productId: string) => void;
+  addBanner: (banner: Omit<Banner, 'id'>) => void;
   updateBanner: (banner: Banner) => void;
+  deleteBanner: (bannerId: string) => void;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -176,8 +179,17 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
     setProducts(prev => prev.filter(p => p.id !== productId));
   };
 
+  const addBanner = (banner: Omit<Banner, 'id'>) => {
+    const newBanner = { ...banner, id: `banner-${Date.now()}` };
+    setBanners(prev => [newBanner, ...prev]);
+  };
+
   const updateBanner = (banner: Banner) => {
     setBanners(prev => prev.map(b => b.id === banner.id ? banner : b));
+  };
+
+  const deleteBanner = (bannerId: string) => {
+    setBanners(prev => prev.filter(b => b.id !== bannerId));
   };
   
   const cartSubtotal = cart.reduce((total, item) => total + item.product.price * item.quantity, 0);
@@ -210,7 +222,9 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
         addProduct,
         updateProduct,
         deleteProduct,
+        addBanner,
         updateBanner,
+        deleteBanner,
       }}
     >
       {children}
