@@ -1,3 +1,64 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "banner1",
+      "description": "A vibrant banner showcasing a collection of beautiful sarees.",
+      "imageUrl": "https://images.unsplash.com/photo-1694243382333-9e3244d9ba04?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzYXJlZSUyMGNvbGxlY3Rpb258ZW58MHx8fHwxNzY1MTkwMDk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "saree collection"
+    },
+    {
+      "id": "banner2",
+      "description": "A promotional banner for a festive sale on traditional wear.",
+      "imageUrl": "https://images.unsplash.com/photo-1764454197020-60961e77f8aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmZXN0aXZlJTIwc2FsZXxlbnwwfHx8fDE3NjUxOTAwOTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "festive sale"
+    },
+    {
+      "id": "product1",
+      "description": "An elegant red silk saree with golden embroidery.",
+      "imageUrl": "https://images.unsplash.com/photo-1761125135351-268e72e39158?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZWQlMjBzYXJlZXxlbnwwfHx8fDE3NjUxMDcwMjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "red saree"
+    },
+    {
+      "id": "product2",
+      "description": "A beautiful blue cotton saree with floral prints.",
+      "imageUrl": "https://images.unsplash.com/photo-1707782438650-d324025da296?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb3R0b24lMjBzYXJlZXxlbnwwfHx8fDE3NjUxOTAwOTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cotton saree"
+    },
+    {
+      "id": "product3",
+      "description": "A traditional green and gold Kanjivaram saree.",
+      "imageUrl": "https://images.unsplash.com/photo-1707344238677-1a1ec785f459?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxrYW5qaXZhcmFtJTIwc2FyZWV8ZW58MHx8fHwxNzY1MTkwMDk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "kanjivaram saree"
+    },
+    {
+      "id": "product4",
+      "description": "A modern pink georgette saree with sequin work.",
+      "imageUrl": "https://images.unsplash.com/photo-1751006846344-6b767952baea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnZW9yZ2V0dGUlMjBzYXJlZXxlbnwwfHx8fDE3NjUxOTAwOTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "georgette saree"
+    },
+    {
+      "id": "product5",
+      "description": "A simple yet elegant white linen saree.",
+      "imageUrl": "https://images.unsplash.com/photo-1678534956981-420ab74a5603?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxsaW5lbiUyMHNhcmVlfGVufDB8fHx8MTc2NTE5MDA5Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "linen saree"
+    },
+    {
+      "id": "product6",
+      "description": "A vibrant yellow Bandhani saree from Gujarat.",
+      "imageUrl": "https://images.unsplash.com/photo-1735891969974-70b783786b82?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiYW5kaGFuaSUyMHNhcmVlfGVufDB8fHx8MTc2NTE5MDA5NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bandhani saree"
+    },
+    {
+      "id": "product7",
+      "description": "A luxurious black Banarasi silk saree.",
+      "imageUrl": "https://images.unsplash.com/photo-1732381917604-bc8f046965ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxiYW5hcmFzaSUyMHNhcmVlfGVufDB8fHx8MTc2NTE5MDA5NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "banarasi saree"
+    },
+    {
+      "id": "product8",
+      "description": "A comfortable and stylish purple chiffon saree.",
+      "imageUrl": "https://images.unsplash.com/photo-1728750753088-0be64465a6da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjaGlmZm9uJTIwc2FyZWV8ZW58MHx8fHwxNzY1MTkwMDk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chiffon saree"
+    }
+  ]
 }
