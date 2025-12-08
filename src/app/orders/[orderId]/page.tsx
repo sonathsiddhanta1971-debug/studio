@@ -8,9 +8,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useStore } from "@/contexts/store-context";
 import Image from "next/image";
 
-function OrderDetailPageContent({ params }: { params: { orderId: string } }) {
+function OrderDetailPageContent({ orderId }: { orderId: string }) {
   const { orders, loading } = useStore();
-  const order = orders.find(o => o.id === params.orderId);
+  const order = orders.find(o => o.id === orderId);
 
   if (loading) {
     return <div className="container mx-auto px-4 py-8 space-y-4"><Skeleton className="h-96 w-full" /></div>;
@@ -86,7 +86,7 @@ function OrderDetailPageContent({ params }: { params: { orderId: string } }) {
 export default function OrderDetailPage({ params }: { params: { orderId: string } }) {
     return (
         <PrivateRoute>
-            <OrderDetailPageContent params={params} />
+            <OrderDetailPageContent orderId={params.orderId} />
         </PrivateRoute>
     );
 }
