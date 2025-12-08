@@ -8,7 +8,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { useStore } from "@/contexts/store-context";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { DollarSign, Package, ShoppingCart, Users, Image as ImageIcon, Shirt } from "lucide-react";
+import { DollarSign, Package, ShoppingCart, Users, Image as ImageIcon, Shirt, Settings } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -77,7 +77,7 @@ function AdminPageContent() {
         </Card>
       </div>
 
-       <div className="grid gap-4 md:grid-cols-2">
+       <div className="grid gap-4 md:grid-cols-3">
         <Link href="/admin/products">
             <Card className="hover:bg-muted/50 transition-colors">
                 <CardHeader className="flex flex-row items-center justify-between">
@@ -97,6 +97,17 @@ function AdminPageContent() {
                 </CardHeader>
                 <CardContent>
                     <p>Update your homepage banners.</p>
+                </CardContent>
+            </Card>
+        </Link>
+        <Link href="/admin/settings">
+            <Card className="hover:bg-muted/50 transition-colors">
+                <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle>Settings</CardTitle>
+                    <Settings className="h-6 w-6 text-primary" />
+                </CardHeader>
+                <CardContent>
+                    <p>Manage store settings, like QR code.</p>
                 </CardContent>
             </Card>
         </Link>
@@ -125,7 +136,7 @@ function AdminPageContent() {
                   <TableCell>{new Date(order.createdAt).toLocaleDateString()}</TableCell>
                   <TableCell>{order.address.fullName}</TableCell>
                   <TableCell>
-                    <Badge variant={order.status === 'delivered' ? 'default' : 'secondary'} className="capitalize">
+                    <Badge variant={order.status === 'delivered' ? 'default' : (order.status === 'pending' ? 'destructive' : 'secondary')} className="capitalize">
                       {order.status}
                     </Badge>
                   </TableCell>

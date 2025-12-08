@@ -4,7 +4,7 @@ import { PrivateRoute } from "@/components/private-route";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useStore } from "@/contexts/store-context";
-import { Loader2, Plus } from "lucide-react";
+import { Loader2, Plus, QrCode } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,14 +15,15 @@ import type { Address } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AddressForm } from "@/components/address-form";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 function CheckoutPageContent() {
   const router = useRouter();
-  const { cart, cartSubtotal, shippingCost, cartTotal, addresses, placeOrder } = useStore();
+  const { cart, cartSubtotal, shippingCost, cartTotal, addresses, placeOrder, qrCodeUrl } = useStore();
   const { toast } = useToast();
   
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState("Razorpay");
+  const [paymentMethod, setPaymentMethod] = useState("COD");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [isAddressDialogOpen, setAddressDialogOpen] = useState(false);
 
@@ -93,15 +94,36 @@ function CheckoutPageContent() {
           </CardHeader>
           <CardContent>
              <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-2">
-                <Label htmlFor="razorpay" className="flex items-center gap-4 border rounded-lg p-4 cursor-pointer has-[:checked]:border-primary">
-                  <RadioGroupItem value="Razorpay" id="razorpay" />
-                  <span>Online Payment (Razorpay)</span>
+                <Label htmlFor="qrcode" className="flex items-center gap-4 border rounded-lg p-4 cursor-pointer has-[:checked]:border-primary">
+                  <RadioGroupItem value="QR Code" id="qrcode" />
+                  <span>Pay with QR Code</span>
                 </Label>
                 <Label htmlFor="cod" className="flex items-center gap-4 border rounded-lg p-4 cursor-pointer has-[:checked]:border-primary">
                   <RadioGroupItem value="COD" id="cod" />
                   <span>Cash on Delivery</span>
                 </Label>
              </RadioGroup>
+             {paymentMethod === 'QR Code' && (
+                <div className="mt-4 p-4 border-dashed border-2 rounded-lg text-center">
+                  {qrCodeUrl ? (
+                    <>
+                      <p className="mb-2 text-sm text-muted-foreground">Scan the QR code to pay</p>
+                      <div className="relative w-48 h-48 mx-auto">
+                        <Image src={qrCodeUrl} alt="Payment QR Code" layout="fill" objectFit="contain" />
+                      </div>
+                      <Alert className="mt-4 text-left">
+                        <QrCode className="h-4 w-4"/>
+                        <AlertTitle>Important!</AlertTitle>
+                        <AlertDescription>
+                          After completing payment, click "Place Order" to confirm. We will verify the payment and process your order.
+                        </AlertDescription>
+                      </Alert>
+                    </>
+                  ) : (
+                    <p className="text-destructive">QR Code not available. Please contact support.</p>
+                  )}
+                </div>
+              )}
           </CardContent>
         </Card>
       </div>
@@ -133,7 +155,7 @@ function CheckoutPageContent() {
                 </div>
                  <Button className="w-full mt-6" size="lg" onClick={handlePlaceOrder} disabled={isPlacingOrder}>
                     {isPlacingOrder && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {isPlacingOrder ? 'Placing Order...' : `Place Order (${paymentMethod})`}
+                    {isPlacingOrder ? 'Placing Order...' : `Place Order`}
                 </Button>
             </CardContent>
         </Card>

@@ -25,6 +25,7 @@ export function MainAppShell({ children }: { children: React.ReactNode }) {
   else if (pathname.startsWith('/orders')) headerTitle = "My Orders";
   else if (pathname.startsWith('/admin/products')) headerTitle = "Manage Products";
   else if (pathname.startsWith('/admin/banners')) headerTitle = "Manage Banners";
+  else if (pathname.startsWith('/admin/settings')) headerTitle = "Settings";
   else if (pathname.startsWith('/admin')) headerTitle = "Admin Panel";
 
 

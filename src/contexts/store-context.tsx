@@ -16,6 +16,8 @@ interface StoreContextType {
   orders: Order[];
   addresses: Address[];
   loading: boolean;
+  qrCodeUrl: string | null;
+  setQrCodeUrl: (url: string) => void;
   isWishlisted: (productId: string) => boolean;
   toggleWishlist: (product: Product) => void;
   addToCart: (product: Product, quantity?: number) => void;
@@ -49,12 +51,15 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
     // Load base data
     setProducts(JSON.parse(localStorage.getItem('mita-sharee-products') || JSON.stringify(PRODUCTS)));
     setBanners(JSON.parse(localStorage.getItem('mita-sharee-banners') || JSON.stringify(BANNERS)));
+    setQrCodeUrl(localStorage.getItem('mita-sharee-qrcode') || null);
+
 
     if (user) {
       // Mock fetching user-specific data
@@ -92,6 +97,14 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
       localStorage.setItem('mita-sharee-banners', JSON.stringify(banners));
   }, [banners]);
+
+  useEffect(() => {
+    if (qrCodeUrl) {
+      localStorage.setItem('mita-sharee-qrcode', qrCodeUrl);
+    } else {
+      localStorage.removeItem('mita-sharee-qrcode');
+    }
+  }, [qrCodeUrl]);
 
 
   const isWishlisted = (productId: string) => wishlist.some(p => p.id === productId);
@@ -156,8 +169,8 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
       total: cartTotal,
       address,
       paymentMethod,
-      paymentId: paymentMethod === 'Razorpay' ? `pay_${Date.now()}` : undefined,
-      status: 'processing',
+      paymentId: paymentMethod === 'QR Code' ? `qr_pay_${Date.now()}` : undefined,
+      status: paymentMethod === 'QR Code' ? 'pending' : 'processing',
       createdAt: Date.now(),
     };
 
@@ -208,6 +221,8 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
         orders,
         addresses,
         loading,
+        qrCodeUrl,
+        setQrCodeUrl,
         isWishlisted,
         toggleWishlist,
         addToCart,
