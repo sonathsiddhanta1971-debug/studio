@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -28,10 +29,11 @@ export function MainAppShell({ children }: { children: React.ReactNode }) {
   else if (pathname.startsWith('/admin/settings')) headerTitle = "Settings";
   else if (pathname.startsWith('/admin')) headerTitle = "Admin Panel";
 
+  const showSearch = pathname === '/';
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <AppHeader title={headerTitle} showBackButton={!showBottomNav} />
+      <AppHeader title={headerTitle} showBackButton={!showBottomNav} showSearch={showSearch} />
       <main className={`flex-grow ${showBottomNav ? 'pb-20' : 'pb-4'} pt-16`}>
         {children}
       </main>

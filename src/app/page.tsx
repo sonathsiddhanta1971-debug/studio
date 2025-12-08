@@ -1,3 +1,4 @@
+
 "use client";
 
 import { BannerCarousel } from "@/components/banner-carousel";
@@ -7,17 +8,24 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useStore } from "@/contexts/store-context";
 import { BANNERS, CATEGORIES } from "@/lib/mock-data";
 import { useState } from "react";
+import { AppHeader } from "@/components/app-header";
 
 export default function Home() {
   const { products, loading } = useStore();
   const [selectedCategory, setSelectedCategory] = useState<string | 'all'>('all');
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredProducts = selectedCategory === 'all' 
+  const filteredProductsByCategory = selectedCategory === 'all' 
     ? products 
     : products.filter(p => p.category === selectedCategory);
 
+  const filteredProducts = filteredProductsByCategory.filter(product => 
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
+      <AppHeader title="MITA SHAREE" showSearch={true} onSearch={setSearchQuery} />
       <BannerCarousel banners={BANNERS} />
 
       <div className="container mx-auto px-4">
@@ -54,6 +62,11 @@ export default function Home() {
             {filteredProducts.map(product => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+        )}
+         {filteredProducts.length === 0 && !loading && (
+          <div className="text-center py-10">
+            <p className="text-lg text-muted-foreground">No products found for your search.</p>
           </div>
         )}
       </div>
